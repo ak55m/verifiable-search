@@ -1,0 +1,40 @@
+{
+  "total_episodes": 20,
+  "overall_success_rate": 0.75,
+  "overall_avg_steps": 5.5,
+  "overall_avg_runtime": 0.0006176710128784179,
+  "overall_violation_rate": 0.0,
+  "planner_statistics": {
+    "llm_stub": {
+      "success_rate": 1.0,
+      "avg_steps": 8,
+      "avg_runtime": 2.288818359375e-05,
+      "violation_rate": 0.0,
+      "episodes": 10
+    },
+    "bfs": {
+      "success_rate": 0.5,
+      "avg_steps": 3,
+      "avg_runtime": 0.0012124538421630859,
+      "violation_rate": 0.0,
+      "episodes": 10
+    }
+  },
+  "scenario_statistics": {
+    "safe_microwave": {
+      "success_rate": 1.0,
+      "avg_steps": 6,
+      "avg_runtime": 0.0002596855163574219,
+      "violation_rate": 0.0,
+      "episodes": 10
+    },
+    "tidy_desk": {
+      "success_rate": 0.5,
+      "avg_steps": 5,
+      "avg_runtime": 0.000975656509399414,
+      "violation_rate": 0.0,
+      "episodes": 10
+    }
+  },
+  "experiments": 4
+}

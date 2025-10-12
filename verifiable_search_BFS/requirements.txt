@@ -1,0 +1,14 @@
+# Verifiable Search Project Requirements
+
+# Core dependencies
+numpy>=1.21.0
+dataclasses>=0.6; python_version < "3.7"
+
+# Optional: For real LLM integration (when implemented)
+# openai>=1.0.0
+# anthropic>=0.3.0
+
+# Development dependencies (optional)
+# pytest>=6.0.0
+# black>=21.0.0
+# flake8>=3.8.0
