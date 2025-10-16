@@ -167,7 +167,7 @@ class IntegratedPlanner:
             plan_verification = self._verify_plan(current_plan, current_state)
             verification_reports.append(plan_verification)
             
-            if plan_verification.is_safe:
+            if plan_verification.overall_safe:
                 break  # Plan is safe, we're done
             
             # Find unsafe actions and repair them

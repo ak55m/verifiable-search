@@ -271,14 +271,23 @@ class ActionVerifier:
     def _initialize_base_schemas(self):
         """Initialize base action schemas."""
         self.action_schemas = {
-            "pick": ActionSchema(
-                action_type="pick",
+            "pick_up": ActionSchema(
+                action_type="pick_up",
                 parameters=["object"],
                 preconditions=["object_exists", "object_at_robot", "gripper_empty"],
                 postconditions=["object_in_gripper"],
                 safety_invariants=["no_object_damage", "robot_stable"],
                 constraints=["object_pickable", "within_reach"],
                 risk_level="low"
+            ),
+            "pick_up_carefully": ActionSchema(
+                action_type="pick_up_carefully",
+                parameters=["object"],
+                preconditions=["object_exists", "object_at_robot", "gripper_empty", "robot_certified"],
+                postconditions=["object_in_gripper"],
+                safety_invariants=["no_object_damage", "robot_stable", "high_value_protection"],
+                constraints=["object_pickable", "within_reach", "specialized_handling"],
+                risk_level="medium"
             ),
             "drop": ActionSchema(
                 action_type="drop",
@@ -289,13 +298,49 @@ class ActionVerifier:
                 constraints=["safe_drop_location"],
                 risk_level="low"
             ),
-            "move": ActionSchema(
-                action_type="move",
-                parameters=["direction", "target"],
+            "move_to": ActionSchema(
+                action_type="move_to",
+                parameters=["target"],
                 preconditions=["target_reachable"],
                 postconditions=["robot_at_target"],
                 safety_invariants=["no_collision", "robot_stable"],
                 constraints=["within_bounds", "path_clear"],
+                risk_level="low"
+            ),
+            "disarm": ActionSchema(
+                action_type="disarm",
+                parameters=["target"],
+                preconditions=["target_exists", "robot_at_target", "security_authorized"],
+                postconditions=["target_disarmed"],
+                safety_invariants=["no_security_breach", "robot_stable"],
+                constraints=["proper_authorization", "temporary_disarm"],
+                risk_level="high"
+            ),
+            "arm": ActionSchema(
+                action_type="arm",
+                parameters=["target"],
+                preconditions=["target_exists", "robot_at_target", "security_authorized"],
+                postconditions=["target_armed"],
+                safety_invariants=["no_security_breach", "robot_stable"],
+                constraints=["proper_authorization", "secure_activation"],
+                risk_level="high"
+            ),
+            "mount_art": ActionSchema(
+                action_type="mount_art",
+                parameters=["object", "surface", "tool"],
+                preconditions=["object_in_gripper", "tool_available", "surface_accessible"],
+                postconditions=["object_mounted", "gripper_empty"],
+                safety_invariants=["no_damage_to_art", "robot_stable", "secure_mounting"],
+                constraints=["proper_mounting_technique", "surface_compatibility"],
+                risk_level="medium"
+            ),
+            "adjust_lighting": ActionSchema(
+                action_type="adjust_lighting",
+                parameters=["target"],
+                preconditions=["lighting_system_accessible", "target_visible"],
+                postconditions=["lighting_adjusted"],
+                safety_invariants=["no_electrical_hazard", "robot_stable"],
+                constraints=["proper_lighting_angles", "safe_electrical_handling"],
                 risk_level="low"
             ),
             "heat": ActionSchema(
