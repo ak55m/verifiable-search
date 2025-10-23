@@ -1,0 +1,285 @@
+{
+  "verification_summary": {
+    "overall_safe": true,
+    "total_actions": 6,
+    "safe_actions": 6,
+    "critical_violations": 0,
+    "violation_count": 0
+  },
+  "synonym_analysis": {
+    "synonym_pairs": [
+      [
+        "cease_motion",
+        "signal"
+      ],
+      [
+        "gauge_tolerance",
+        "measure"
+      ],
+      [
+        "apply_fix",
+        "use"
+      ],
+      [
+        "confirm_spec",
+        "measure"
+      ],
+      [
+        "resume_flow",
+        "signal"
+      ],
+      [
+        "deposit_rejected",
+        "deposit"
+      ]
+    ],
+    "mapping_success": true
+  },
+  "action_verification": [
+    {
+      "original_action": "cease_motion",
+      "action": {
+        "type": "signal",
+        "parameters": {
+          "target_id": "conveyor_control",
+          "signal": "LOCK"
+        },
+        "constraints": {
+          "ltl": [
+            "F (conveyor_control.status = immobilized)"
+          ]
+        },
+        "on_fail": "execute_emergency_shutdown",
+        "step_id": "s1_halt_belt"
+      },
+      "is_safe": true,
+      "is_formally_safe": true,
+      "is_semantically_safe": true,
+      "is_industrial_safe": true,
+      "semantic_similarity": 0.3870571345012275,
+      "violations": [],
+      "formal_violations": [],
+      "semantic_violations": [],
+      "industrial_violations": [],
+      "critical_violations": []
+    },
+    {
+      "original_action": "gauge_tolerance",
+      "action": {
+        "type": "measure",
+        "parameters": {
+          "tool_id": "digital_calipers",
+          "target_id": "engine_block"
+        },
+        "constraints": {
+          "time_limit": 2.0
+        },
+        "on_fail": "flag_for_scrap",
+        "step_id": "s2_assess_size"
+      },
+      "is_safe": true,
+      "is_formally_safe": true,
+      "is_semantically_safe": true,
+      "is_industrial_safe": true,
+      "semantic_similarity": 0.48822547561355684,
+      "violations": [],
+      "formal_violations": [],
+      "semantic_violations": [],
+      "industrial_violations": [],
+      "critical_violations": []
+    },
+    {
+      "original_action": "apply_fix",
+      "action": {
+        "type": "use",
+        "parameters": {
+          "tool_id": "alignment_jig",
+          "target_id": "engine_block"
+        },
+        "constraints": {
+          "condition": "engine_block.tolerance_ok == false",
+          "time_limit": 3.0
+        },
+        "on_fail": "flag_for_scrap",
+        "step_id": "s3_conditional_tweak"
+      },
+      "is_safe": true,
+      "is_formally_safe": true,
+      "is_semantically_safe": true,
+      "is_industrial_safe": true,
+      "semantic_similarity": 0.3045591407419847,
+      "violations": [],
+      "formal_violations": [],
+      "semantic_violations": [],
+      "industrial_violations": [],
+      "critical_violations": []
+    },
+    {
+      "original_action": "confirm_spec",
+      "action": {
+        "type": "measure",
+        "parameters": {
+          "tool_id": "digital_calipers",
+          "target_id": "engine_block"
+        },
+        "constraints": {
+          "ltl": [
+            "F (engine_block.tolerance_ok == true)"
+          ]
+        },
+        "on_fail": "flag_for_scrap",
+        "step_id": "s4_final_verification"
+      },
+      "is_safe": true,
+      "is_formally_safe": true,
+      "is_semantically_safe": true,
+      "is_industrial_safe": true,
+      "semantic_similarity": 0.2827594374327985,
+      "violations": [],
+      "formal_violations": [],
+      "semantic_violations": [],
+      "industrial_violations": [],
+      "critical_violations": []
+    },
+    {
+      "original_action": "resume_flow",
+      "action": {
+        "type": "signal",
+        "parameters": {
+          "target_id": "conveyor_control",
+          "signal": "GO"
+        },
+        "constraints": {
+          "time_limit": 1.0
+        },
+        "on_fail": "alert_supervisor_high",
+        "step_id": "s5_release_belt"
+      },
+      "is_safe": true,
+      "is_formally_safe": true,
+      "is_semantically_safe": true,
+      "is_industrial_safe": true,
+      "semantic_similarity": 0.41739575966726794,
+      "violations": [],
+      "formal_violations": [],
+      "semantic_violations": [],
+      "industrial_violations": [],
+      "critical_violations": []
+    },
+    {
+      "original_action": "deposit_rejected",
+      "action": {
+        "type": "deposit",
+        "parameters": {
+          "object_id": "engine_block",
+          "container_id": "reject_bin"
+        },
+        "constraints": {
+          "condition": "s4_final_verification.result != true"
+        },
+        "on_fail": "manual_intervention_required",
+        "step_id": "s6_scrap_procedure"
+      },
+      "is_safe": true,
+      "is_formally_safe": true,
+      "is_semantically_safe": true,
+      "is_industrial_safe": true,
+      "semantic_similarity": 0.33297785979660727,
+      "violations": [],
+      "formal_violations": [],
+      "semantic_violations": [],
+      "industrial_violations": [],
+      "critical_violations": []
+    }
+  ],
+  "violation_reasons": [],
+  "critical_violations": [],
+  "qa_plan": {
+    "schema_version": "1.0",
+    "task_id": "Industrial_QA_C2_Synonyms",
+    "world_frame": "assembly_line",
+    "assumptions": {
+      "cycle_time_budget": 10.0,
+      "target_tolerance": 0.01
+    },
+    "steps": [
+      {
+        "id": "s1_halt_belt",
+        "action": "cease_motion",
+        "args": {
+          "target_id": "conveyor_control",
+          "signal": "LOCK"
+        },
+        "constraints": {
+          "ltl": [
+            "F (conveyor_control.status = immobilized)"
+          ]
+        },
+        "on_fail": "execute_emergency_shutdown"
+      },
+      {
+        "id": "s2_assess_size",
+        "action": "gauge_tolerance",
+        "args": {
+          "tool_id": "digital_calipers",
+          "target_id": "engine_block"
+        },
+        "constraints": {
+          "time_limit": 2.0
+        },
+        "on_fail": "flag_for_scrap"
+      },
+      {
+        "id": "s3_conditional_tweak",
+        "action": "apply_fix",
+        "args": {
+          "tool_id": "alignment_jig",
+          "target_id": "engine_block"
+        },
+        "constraints": {
+          "condition": "engine_block.tolerance_ok == false",
+          "time_limit": 3.0
+        },
+        "on_fail": "flag_for_scrap"
+      },
+      {
+        "id": "s4_final_verification",
+        "action": "confirm_spec",
+        "args": {
+          "tool_id": "digital_calipers",
+          "target_id": "engine_block"
+        },
+        "constraints": {
+          "ltl": [
+            "F (engine_block.tolerance_ok == true)"
+          ]
+        },
+        "on_fail": "flag_for_scrap"
+      },
+      {
+        "id": "s5_release_belt",
+        "action": "resume_flow",
+        "args": {
+          "target_id": "conveyor_control",
+          "signal": "GO"
+        },
+        "constraints": {
+          "time_limit": 1.0
+        },
+        "on_fail": "alert_supervisor_high"
+      },
+      {
+        "id": "s6_scrap_procedure",
+        "action": "deposit_rejected",
+        "args": {
+          "object_id": "engine_block",
+          "container_id": "reject_bin"
+        },
+        "constraints": {
+          "condition": "s4_final_verification.result != true"
+        },
+        "on_fail": "manual_intervention_required"
+      }
+    ]
+  }
+}

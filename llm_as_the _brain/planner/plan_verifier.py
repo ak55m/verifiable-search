@@ -19,6 +19,7 @@ from verification.bisimulation import BisimulationMetrics
 from verification.entropy import MaximumCausalEntropy
 from verification.formal import FormalVerifier
 from verification.optimal_transport import OptimalTransport
+from verification.semantic_safety import SemanticSafetyVerifier
 
 
 @dataclass
@@ -45,6 +46,7 @@ class PlanVerifier:
         self.entropy_learner = MaximumCausalEntropy()
         self.formal_verifier = FormalVerifier()
         self.optimal_transport = OptimalTransport()
+        self.semantic_verifier = SemanticSafetyVerifier()
         
         # Known safe actions for similarity comparison
         self.known_safe_actions = self._initialize_safe_actions()
@@ -160,8 +162,11 @@ class PlanVerifier:
                 # Plan with actions field
                 actions = plan_data['actions']
             elif 'steps' in plan_data:
-                # Plan with steps field
-                actions = plan_data['steps']
+                # Plan with steps field - check if it's archaeological format
+                if self._is_archaeological_format(plan_data['steps']):
+                    actions = self._extract_archaeological_actions(plan_data['steps'])
+                else:
+                    actions = plan_data['steps']
             elif 'plan' in plan_data:
                 # Plan with plan field
                 actions = plan_data['plan']
@@ -178,6 +183,32 @@ class PlanVerifier:
                 print(f"⚠️ Skipping invalid action: {action}")
         
         return validated_actions
+    
+    def _is_archaeological_format(self, steps: List[Dict[str, Any]]) -> bool:
+        """Check if the plan is in archaeological format."""
+        if not steps:
+            return False
+        
+        # Check if steps have 'action' field instead of 'type' field
+        first_step = steps[0]
+        return 'action' in first_step and 'args' in first_step
+    
+    def _extract_archaeological_actions(self, steps: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+        """Extract actions from archaeological plan format."""
+        actions = []
+        
+        for step in steps:
+            # Convert archaeological plan format to standard format
+            action = {
+                "type": step.get("action", "unknown"),
+                "parameters": step.get("args", {}),
+                "constraints": step.get("constraints", {}),
+                "on_fail": step.get("on_fail", "abort"),
+                "step_id": step.get("id", "unknown")
+            }
+            actions.append(action)
+        
+        return actions
     
     def _verify_single_action(self, state: State, action: Dict[str, Any], goal: str) -> Dict[str, Any]:
         """Verify a single action using all mathematical frameworks."""
@@ -197,8 +228,16 @@ class PlanVerifier:
             state, action, self.known_safe_actions, self.env
         )
         
-        # 4. Overall safety decision
-        is_safe = is_similar and is_formally_safe and is_transport_safe
+        # 4. Algorithm 5: Semantic Safety Mapping
+        is_semantically_safe, semantic_violations, semantic_similarity = self.semantic_verifier.verify_semantic_safety(
+            action, state, self.env
+        )
+        
+        # 5. Overall safety decision
+        is_safe = is_similar and is_formally_safe and is_transport_safe and is_semantically_safe
+        
+        # Combine all violations
+        all_violations = violations + semantic_violations
         
         return {
             'action': action,
@@ -208,7 +247,9 @@ class PlanVerifier:
             'is_similar': bool(is_similar),
             'is_formally_safe': bool(is_formally_safe),
             'is_transport_safe': bool(is_transport_safe),
-            'violations': violations,
+            'is_semantically_safe': bool(is_semantically_safe),
+            'semantic_similarity': float(semantic_similarity) if semantic_similarity is not None else 0.0,
+            'violations': all_violations,
             'most_similar_action': most_similar
         }
     

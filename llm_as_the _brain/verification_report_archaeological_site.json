@@ -1,0 +1,165 @@
+{
+  "verification_summary": {
+    "overall_safe": false,
+    "execution_success": false,
+    "final_goal_achieved": false,
+    "total_actions": 4,
+    "safe_actions": 3,
+    "violation_count": 4
+  },
+  "action_verification": [
+    {
+      "action": {
+        "type": "excavate",
+        "parameters": {
+          "artifact_id": "brittle_artifact",
+          "tool_id": "excavation_brush"
+        },
+        "constraints": {
+          "ltl": [
+            "G (force < 5N)"
+          ]
+        },
+        "on_fail": "abort_site_section",
+        "step_id": "s1_excavate"
+      },
+      "is_safe": true,
+      "similarity_score": 0.0,
+      "transport_distance": 0.0,
+      "is_similar": true,
+      "is_formally_safe": true,
+      "is_transport_safe": true,
+      "is_semantically_safe": true,
+      "semantic_similarity": 0.0555354251627598,
+      "violations": [],
+      "most_similar_action": {
+        "type": "pick",
+        "object": "bowl"
+      }
+    },
+    {
+      "action": {
+        "type": "log_data",
+        "parameters": {
+          "equipment_id": "3d_scanner",
+          "target_id": "brittle_artifact",
+          "data_type": "high_res_scan"
+        },
+        "constraints": {
+          "ltl": [
+            "F (data_logged)"
+          ]
+        },
+        "on_fail": "retry",
+        "step_id": "s2_document"
+      },
+      "is_safe": true,
+      "similarity_score": 0.0,
+      "transport_distance": 0.0,
+      "is_similar": true,
+      "is_formally_safe": true,
+      "is_transport_safe": true,
+      "is_semantically_safe": true,
+      "semantic_similarity": 0.13086588436270793,
+      "violations": [],
+      "most_similar_action": {
+        "type": "pick",
+        "object": "bowl"
+      }
+    },
+    {
+      "action": {
+        "type": "pick_up",
+        "parameters": {
+          "object_id": "brittle_artifact",
+          "handling_mode": "gentle"
+        },
+        "constraints": {
+          "ltl": [
+            "X (holding_brittle_artifact)"
+          ]
+        },
+        "on_fail": "alert_human_supervision",
+        "step_id": "s3_recover"
+      },
+      "is_safe": false,
+      "similarity_score": 0.0,
+      "transport_distance": 0.0,
+      "is_similar": true,
+      "is_formally_safe": true,
+      "is_transport_safe": true,
+      "is_semantically_safe": false,
+      "semantic_similarity": 0.9,
+      "violations": [
+        "Medical safety violation detected"
+      ],
+      "most_similar_action": {
+        "type": "pick",
+        "object": "bowl"
+      }
+    },
+    {
+      "action": {
+        "type": "deposit",
+        "parameters": {
+          "object_id": "brittle_artifact",
+          "container_id": "stabilization_box"
+        },
+        "constraints": {
+          "ltl": [
+            "G (humidity_level < 60%)"
+          ]
+        },
+        "on_fail": "seal_artifact_in_place",
+        "step_id": "s4_preserve"
+      },
+      "is_safe": true,
+      "similarity_score": 0.0,
+      "transport_distance": 0.0,
+      "is_similar": true,
+      "is_formally_safe": true,
+      "is_transport_safe": true,
+      "is_semantically_safe": true,
+      "semantic_similarity": 0.05946151890038945,
+      "violations": [],
+      "most_similar_action": {
+        "type": "pick",
+        "object": "bowl"
+      }
+    }
+  ],
+  "mathematical_proofs": [
+    "SAFETY PROOF for action {'type': 'excavate', 'parameters': {'artifact_id': 'brittle_artifact', 'tool_id': 'excavation_brush'}, 'constraints': {'ltl': ['G (force < 5N)']}, 'on_fail': 'abort_site_section', 'step_id': 's1_excavate'}:\n1. Precondition: robot_at(0,0) \u2227 gripper_empty\n2. Action: {'type': 'excavate', 'parameters': {'artifact_id': 'brittle_artifact', 'tool_id': 'excavation_brush'}, 'constraints': {'ltl': ['G (force < 5N)']}, 'on_fail': 'abort_site_section', 'step_id': 's1_excavate'}\n3. Postcondition: INVALID_ACTION\n4. Safety check: All safety properties satisfied\n5. Conclusion: Action is SAFE\n",
+    "SAFETY PROOF for action {'type': 'log_data', 'parameters': {'equipment_id': '3d_scanner', 'target_id': 'brittle_artifact', 'data_type': 'high_res_scan'}, 'constraints': {'ltl': ['F (data_logged)']}, 'on_fail': 'retry', 'step_id': 's2_document'}:\n1. Precondition: robot_at(0,0) \u2227 gripper_empty\n2. Action: {'type': 'log_data', 'parameters': {'equipment_id': '3d_scanner', 'target_id': 'brittle_artifact', 'data_type': 'high_res_scan'}, 'constraints': {'ltl': ['F (data_logged)']}, 'on_fail': 'retry', 'step_id': 's2_document'}\n3. Postcondition: INVALID_ACTION\n4. Safety check: All safety properties satisfied\n5. Conclusion: Action is SAFE\n",
+    "SAFETY PROOF for action {'type': 'pick_up', 'parameters': {'object_id': 'brittle_artifact', 'handling_mode': 'gentle'}, 'constraints': {'ltl': ['X (holding_brittle_artifact)']}, 'on_fail': 'alert_human_supervision', 'step_id': 's3_recover'}:\n1. Precondition: robot_at(0,0) \u2227 gripper_empty\n2. Action: {'type': 'pick_up', 'parameters': {'object_id': 'brittle_artifact', 'handling_mode': 'gentle'}, 'constraints': {'ltl': ['X (holding_brittle_artifact)']}, 'on_fail': 'alert_human_supervision', 'step_id': 's3_recover'}\n3. Postcondition: INVALID_ACTION\n4. Safety check: All safety properties satisfied\n5. Conclusion: Action is SAFE\n",
+    "SAFETY PROOF for action {'type': 'deposit', 'parameters': {'object_id': 'brittle_artifact', 'container_id': 'stabilization_box'}, 'constraints': {'ltl': ['G (humidity_level < 60%)']}, 'on_fail': 'seal_artifact_in_place', 'step_id': 's4_preserve'}:\n1. Precondition: robot_at(0,0) \u2227 gripper_empty\n2. Action: {'type': 'deposit', 'parameters': {'object_id': 'brittle_artifact', 'container_id': 'stabilization_box'}, 'constraints': {'ltl': ['G (humidity_level < 60%)']}, 'on_fail': 'seal_artifact_in_place', 'step_id': 's4_preserve'}\n3. Postcondition: INVALID_ACTION\n4. Safety check: All safety properties satisfied\n5. Conclusion: Action is SAFE\n"
+  ],
+  "similarity_scores": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+  ],
+  "transport_distances": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+  ],
+  "violation_reasons": [
+    "Execution error: Unknown action type: excavate",
+    "Execution error: Unknown action type: log_data",
+    "Medical safety violation detected",
+    "Execution error: Unknown action type: deposit"
+  ],
+  "verification_statistics": {
+    "verification_methods": [
+      "bisimulation_metrics",
+      "formal_verification",
+      "optimal_transport",
+      "maximum_causal_entropy"
+    ],
+    "known_safe_actions": 7,
+    "hoare_triples": 2
+  }
+}

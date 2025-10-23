@@ -45,6 +45,66 @@ def create_test_state(scenario: str = "safe_microwave") -> State:
                 properties={"is_container": False, "is_surface": True}
             )
         }
+    elif scenario == "elderly_care":
+        objects = {
+            "medication_dispenser": Object(
+                position=(1, 1),
+                properties={"is_container": True, "is_medical_device": True}
+            ),
+            "elderly_patient": Object(
+                position=(2, 2),
+                properties={"is_patient": True, "needs_medication": True}
+            ),
+            "vital_monitor": Object(
+                position=(3, 1),
+                properties={"is_medical_device": True, "is_monitoring": True}
+            ),
+            "assistive_device": Object(
+                position=(1, 3),
+                properties={"is_mobility_aid": True, "is_heavy": False}
+            ),
+            "comfort_area": Object(
+                position=(4, 4),
+                properties={"is_comfort_zone": True, "is_safe_area": True}
+            )
+        }
+    elif scenario == "archaeological_site":
+        objects = {
+            "brittle_artifact": Object(
+                position=(2, 2),
+                properties={
+                    "is_archaeological": True, 
+                    "is_fragile": True,
+                    "is_artifact": True,
+                    "needs_gentle_handling": True
+                }
+            ),
+            "excavation_brush": Object(
+                position=(1, 1),
+                properties={
+                    "is_tool": True,
+                    "is_excavation_tool": True,
+                    "is_safe_for_artifacts": True
+                }
+            ),
+            "3d_scanner": Object(
+                position=(3, 1),
+                properties={
+                    "is_equipment": True,
+                    "is_documentation_tool": True,
+                    "is_scanner": True
+                }
+            ),
+            "stabilization_box": Object(
+                position=(4, 4),
+                properties={
+                    "is_container": True,
+                    "is_preservation_container": True,
+                    "is_stabilization_box": True,
+                    "humidity_controlled": True
+                }
+            )
+        }
     else:
         # Default scenario
         objects = {
@@ -156,7 +216,7 @@ Examples:
     
     parser.add_argument(
         "--scenario",
-        choices=["safe_microwave", "tidy_desk", "make_tea"],
+        choices=["safe_microwave", "tidy_desk", "make_tea", "elderly_care", "archaeological_site"],
         default="safe_microwave",
         help="Test scenario"
     )

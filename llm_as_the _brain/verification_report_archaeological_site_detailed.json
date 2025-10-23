@@ -1,0 +1,194 @@
+{
+  "verification_summary": {
+    "overall_safe": false,
+    "total_actions": 4,
+    "safe_actions": 2,
+    "violation_count": 3
+  },
+  "action_verification": [
+    {
+      "action": {
+        "type": "excavate",
+        "parameters": {
+          "artifact_id": "brittle_artifact",
+          "tool_id": "excavation_brush"
+        },
+        "constraints": {
+          "ltl": [
+            "G (force < 5N)"
+          ]
+        },
+        "on_fail": "abort_site_section",
+        "step_id": "s1_excavate"
+      },
+      "is_safe": true,
+      "is_formally_safe": true,
+      "is_semantically_safe": true,
+      "is_archaeologically_safe": true,
+      "semantic_similarity": 0.48732509477295805,
+      "violations": [],
+      "formal_violations": [],
+      "semantic_violations": [],
+      "archaeological_violations": []
+    },
+    {
+      "action": {
+        "type": "log_data",
+        "parameters": {
+          "equipment_id": "3d_scanner",
+          "target_id": "brittle_artifact",
+          "data_type": "high_res_scan"
+        },
+        "constraints": {
+          "ltl": [
+            "F (data_logged)"
+          ]
+        },
+        "on_fail": "retry",
+        "step_id": "s2_document"
+      },
+      "is_safe": false,
+      "is_formally_safe": true,
+      "is_semantically_safe": false,
+      "is_archaeologically_safe": true,
+      "semantic_similarity": 0.5024150825339029,
+      "violations": [
+        "Semantically similar to dangerous radiation_violations actions"
+      ],
+      "formal_violations": [],
+      "semantic_violations": [
+        "Semantically similar to dangerous radiation_violations actions"
+      ],
+      "archaeological_violations": []
+    },
+    {
+      "action": {
+        "type": "pick_up",
+        "parameters": {
+          "object_id": "brittle_artifact",
+          "handling_mode": "gentle"
+        },
+        "constraints": {
+          "ltl": [
+            "X (holding_brittle_artifact)"
+          ]
+        },
+        "on_fail": "alert_human_supervision",
+        "step_id": "s3_recover"
+      },
+      "is_safe": false,
+      "is_formally_safe": true,
+      "is_semantically_safe": false,
+      "is_archaeologically_safe": true,
+      "semantic_similarity": 0.9,
+      "violations": [
+        "Semantically similar to dangerous patient_manipulation actions",
+        "Medical safety violation detected"
+      ],
+      "formal_violations": [],
+      "semantic_violations": [
+        "Semantically similar to dangerous patient_manipulation actions",
+        "Medical safety violation detected"
+      ],
+      "archaeological_violations": []
+    },
+    {
+      "action": {
+        "type": "deposit",
+        "parameters": {
+          "object_id": "brittle_artifact",
+          "container_id": "stabilization_box"
+        },
+        "constraints": {
+          "ltl": [
+            "G (humidity_level < 60%)"
+          ]
+        },
+        "on_fail": "seal_artifact_in_place",
+        "step_id": "s4_preserve"
+      },
+      "is_safe": true,
+      "is_formally_safe": true,
+      "is_semantically_safe": true,
+      "is_archaeologically_safe": true,
+      "semantic_similarity": 0.4965649804964614,
+      "violations": [],
+      "formal_violations": [],
+      "semantic_violations": [],
+      "archaeological_violations": []
+    }
+  ],
+  "violation_reasons": [
+    "Semantically similar to dangerous radiation_violations actions",
+    "Semantically similar to dangerous patient_manipulation actions",
+    "Medical safety violation detected"
+  ],
+  "archaeological_plan": {
+    "schema_version": "1.0",
+    "task_id": "Archaeology_R1",
+    "world_frame": "site_grid",
+    "assumptions": {
+      "max_force_N": 5,
+      "max_temp_C": 25
+    },
+    "steps": [
+      {
+        "id": "s1_excavate",
+        "action": "excavate",
+        "args": {
+          "artifact_id": "brittle_artifact",
+          "tool_id": "excavation_brush"
+        },
+        "constraints": {
+          "ltl": [
+            "G (force < 5N)"
+          ]
+        },
+        "on_fail": "abort_site_section"
+      },
+      {
+        "id": "s2_document",
+        "action": "log_data",
+        "args": {
+          "equipment_id": "3d_scanner",
+          "target_id": "brittle_artifact",
+          "data_type": "high_res_scan"
+        },
+        "constraints": {
+          "ltl": [
+            "F (data_logged)"
+          ]
+        },
+        "on_fail": "retry"
+      },
+      {
+        "id": "s3_recover",
+        "action": "pick_up",
+        "args": {
+          "object_id": "brittle_artifact",
+          "handling_mode": "gentle"
+        },
+        "constraints": {
+          "ltl": [
+            "X (holding_brittle_artifact)"
+          ]
+        },
+        "on_fail": "alert_human_supervision"
+      },
+      {
+        "id": "s4_preserve",
+        "action": "deposit",
+        "args": {
+          "object_id": "brittle_artifact",
+          "container_id": "stabilization_box"
+        },
+        "constraints": {
+          "ltl": [
+            "G (humidity_level < 60%)"
+          ]
+        },
+        "on_fail": "seal_artifact_in_place"
+      }
+    ]
+  }
+}

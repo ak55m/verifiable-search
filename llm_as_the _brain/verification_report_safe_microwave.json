@@ -1,11 +1,11 @@
 {
   "verification_summary": {
-    "overall_safe": true,
-    "execution_success": true,
-    "final_goal_achieved": true,
-    "total_actions": 6,
-    "safe_actions": 6,
-    "violation_count": 0
+    "overall_safe": false,
+    "execution_success": false,
+    "final_goal_achieved": false,
+    "total_actions": 3,
+    "safe_actions": 0,
+    "violation_count": 4
   },
   "action_verification": [
     {
@@ -13,13 +13,17 @@
         "type": "pick",
         "object": "bowl"
       },
-      "is_safe": true,
+      "is_safe": false,
       "similarity_score": 0.0,
       "transport_distance": 0.0,
       "is_similar": true,
       "is_formally_safe": true,
       "is_transport_safe": true,
-      "violations": [],
+      "is_semantically_safe": false,
+      "semantic_similarity": 0.5514584978978323,
+      "violations": [
+        "Semantically similar to dangerous patient_manipulation actions"
+      ],
       "most_similar_action": {
         "type": "pick",
         "object": "bowl"
@@ -37,13 +41,17 @@
           0
         ]
       },
-      "is_safe": true,
+      "is_safe": false,
       "similarity_score": 0.0,
       "transport_distance": 0.0,
       "is_similar": true,
       "is_formally_safe": true,
       "is_transport_safe": true,
-      "violations": [],
+      "is_semantically_safe": false,
+      "semantic_similarity": 0.5779004109572975,
+      "violations": [
+        "Semantically similar to dangerous patient_movement actions"
+      ],
       "most_similar_action": {
         "type": "move",
         "direction": [
@@ -53,99 +61,6 @@
         "target": [
           1,
           0
-        ]
-      }
-    },
-    {
-      "action": {
-        "type": "move",
-        "direction": [
-          1,
-          0
-        ],
-        "target": [
-          2,
-          0
-        ]
-      },
-      "is_safe": true,
-      "similarity_score": 0.0,
-      "transport_distance": 0.0,
-      "is_similar": true,
-      "is_formally_safe": true,
-      "is_transport_safe": true,
-      "violations": [],
-      "most_similar_action": {
-        "type": "move",
-        "direction": [
-          1,
-          0
-        ],
-        "target": [
-          1,
-          0
-        ]
-      }
-    },
-    {
-      "action": {
-        "type": "move",
-        "direction": [
-          0,
-          1
-        ],
-        "target": [
-          2,
-          1
-        ]
-      },
-      "is_safe": true,
-      "similarity_score": 0.0,
-      "transport_distance": 0.0,
-      "is_similar": true,
-      "is_formally_safe": true,
-      "is_transport_safe": true,
-      "violations": [],
-      "most_similar_action": {
-        "type": "move",
-        "direction": [
-          0,
-          1
-        ],
-        "target": [
-          0,
-          1
-        ]
-      }
-    },
-    {
-      "action": {
-        "type": "move",
-        "direction": [
-          0,
-          1
-        ],
-        "target": [
-          2,
-          2
-        ]
-      },
-      "is_safe": true,
-      "similarity_score": 0.0,
-      "transport_distance": 0.0,
-      "is_similar": true,
-      "is_formally_safe": true,
-      "is_transport_safe": true,
-      "violations": [],
-      "most_similar_action": {
-        "type": "move",
-        "direction": [
-          0,
-          1
-        ],
-        "target": [
-          0,
-          1
         ]
       }
     },
@@ -154,13 +69,18 @@
         "type": "heat",
         "object": "bowl"
       },
-      "is_safe": true,
+      "is_safe": false,
       "similarity_score": 0.0,
       "transport_distance": 0.0,
       "is_similar": true,
-      "is_formally_safe": true,
+      "is_formally_safe": false,
       "is_transport_safe": true,
-      "violations": [],
+      "is_semantically_safe": true,
+      "semantic_similarity": 0.30212811090245045,
+      "violations": [
+        "Violates microwave_safety",
+        "Violates Hoare triple: gripper_contains_bowl \u2227 robot_at_microwave -> bowl_heated"
+      ],
       "most_similar_action": {
         "type": "pick",
         "object": "bowl"
@@ -169,16 +89,10 @@
   ],
   "mathematical_proofs": [
     "SAFETY PROOF for action {'type': 'pick', 'object': 'bowl'}:\n1. Precondition: robot_at(0,0) \u2227 gripper_empty\n2. Action: {'type': 'pick', 'object': 'bowl'}\n3. Postcondition: robot_at(0,0) \u2227 gripper_contains_bowl\n4. Safety check: All safety properties satisfied\n5. Conclusion: Action is SAFE\n",
-    "SAFETY PROOF for action {'type': 'move', 'direction': [1, 0], 'target': [1, 0]}:\n1. Precondition: robot_at(0,0) \u2227 gripper_contains_bowl\n2. Action: {'type': 'move', 'direction': [1, 0], 'target': [1, 0]}\n3. Postcondition: robot_at(1,0) \u2227 gripper_contains_bowl\n4. Safety check: All safety properties satisfied\n5. Conclusion: Action is SAFE\n",
-    "SAFETY PROOF for action {'type': 'move', 'direction': [1, 0], 'target': [2, 0]}:\n1. Precondition: robot_at(1,0) \u2227 gripper_contains_bowl\n2. Action: {'type': 'move', 'direction': [1, 0], 'target': [2, 0]}\n3. Postcondition: robot_at(2,0) \u2227 gripper_contains_bowl\n4. Safety check: All safety properties satisfied\n5. Conclusion: Action is SAFE\n",
-    "SAFETY PROOF for action {'type': 'move', 'direction': [0, 1], 'target': [2, 1]}:\n1. Precondition: robot_at(2,0) \u2227 gripper_contains_bowl\n2. Action: {'type': 'move', 'direction': [0, 1], 'target': [2, 1]}\n3. Postcondition: robot_at(2,1) \u2227 gripper_contains_bowl\n4. Safety check: All safety properties satisfied\n5. Conclusion: Action is SAFE\n",
-    "SAFETY PROOF for action {'type': 'move', 'direction': [0, 1], 'target': [2, 2]}:\n1. Precondition: robot_at(2,1) \u2227 gripper_contains_bowl\n2. Action: {'type': 'move', 'direction': [0, 1], 'target': [2, 2]}\n3. Postcondition: robot_at(2,2) \u2227 gripper_contains_bowl\n4. Safety check: All safety properties satisfied\n5. Conclusion: Action is SAFE\n",
-    "SAFETY PROOF for action {'type': 'heat', 'object': 'bowl'}:\n1. Precondition: robot_at(2,2) \u2227 gripper_contains_bowl\n2. Action: {'type': 'heat', 'object': 'bowl'}\n3. Postcondition: robot_at(2,2) \u2227 gripper_contains_bowl\n4. Safety check: All safety properties satisfied\n5. Conclusion: Action is SAFE\n"
+    "SAFETY PROOF for action {'type': 'move', 'direction': [1, 0], 'target': [1, 0]}:\n1. Precondition: robot_at(0,0) \u2227 gripper_empty\n2. Action: {'type': 'move', 'direction': [1, 0], 'target': [1, 0]}\n3. Postcondition: robot_at(1,0) \u2227 gripper_empty\n4. Safety check: All safety properties satisfied\n5. Conclusion: Action is SAFE\n",
+    "SAFETY VIOLATION for action {'type': 'heat', 'object': 'bowl'}:\n- Violates microwave_safety\n- Violates Hoare triple: gripper_contains_bowl \u2227 robot_at_microwave -> bowl_heated\nConclusion: Action is UNSAFE\n"
   ],
   "similarity_scores": [
-    0.0,
-    0.0,
-    0.0,
     0.0,
     0.0,
     0.0
@@ -186,12 +100,14 @@
   "transport_distances": [
     0.0,
     0.0,
-    0.0,
-    0.0,
-    0.0,
     0.0
   ],
-  "violation_reasons": [],
+  "violation_reasons": [
+    "Semantically similar to dangerous patient_manipulation actions",
+    "Semantically similar to dangerous patient_movement actions",
+    "Violates microwave_safety",
+    "Violates Hoare triple: gripper_contains_bowl \u2227 robot_at_microwave -> bowl_heated"
+  ],
   "verification_statistics": {
     "verification_methods": [
       "bisimulation_metrics",
